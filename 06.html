@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+
+		<button class="debounce">debounce</button>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.5.10/Rx.min.js"></script>
+		<script type="text/javascript">
+			;
+			(function(w) {
+
+				var _Rx = {}
+				
+				_Rx.Observable = function b(observeFn) {
+					this._isScalar = !1
+					observeFn && (this._subscribe = observeFn)
+				}
+				
+//				_Rx.Subject = function a(selector, eventType) {
+//					selector.addEventListener(eventType, )
+//				}
+				
+//				_Rx.Subject.prototype
+//				javascript:void(0)
+				_Rx.Observable.fromEvent = function(selector, eventType) {
+					return new _Rx.Observable.create(selector, eventType)
+				}
+				
+				_Rx.Observable.create = function(observeFn) {
+					return new _Rx.Observable(observeFn)
+				}
+				
+				_Rx.Observable.prototype = {
+					debounce: function() {
+						
+						return this
+					},
+					debounceTime: function(time) {
+						
+						return this
+					},
+					throttle: function() {
+						
+					},
+					next: function(value) {
+										
+						
+					},
+					subscribe: function(object) {
+						this._subscribe()
+						if (typeof object === 'function') {
+							this._subscribe = object
+						}
+					}
+				}
+				
+				w._Rx = _Rx
+
+			})(window)
+			
+			var subject = _Rx.Observable.create(observer => {
+				console.log(observer)
+			})
+			
+			console.log(subject)
+			
+			subject.subscribe(console.log)
+			
+			var sub = Rx.Observable.create(observer => {
+				console.log(observer)
+			})
+			
+			console.log(sub)
+			
+			sub.subscribe(console.log)
+//			subject.subscribe()
+
+//			_Rx.Observable.fromEvent(document.querySelector('.debounce'), 'click')
+//			.subscribe(function(res) {
+//				console.log(res)
+//			})
+
+//			console.log(Rx.Observable.fromEvent(document.querySelector('.debounce'), 'click'))
+			console.log(Rx.Observable.create)
+			console.log(Rx.Observable.from([]).subscribe(console.log))
+//			var source = Rx.Observable.forkJoin(
+//				Rx.Observable.of(1, 2, 3),
+//				Rx.Observable.range(0, 10)
+//			).subscribe(function(res) {
+//				
+//				console.log(this)
+//				console.log(res)
+//			})
+		</script>
+	</body>
+
+</html>

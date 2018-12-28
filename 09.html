@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<script type="text/javascript">
+			;(function(w) {
+				var Rx = new Object(), tools
+				
+				tools = {
+					judgeType: function(o) {
+						return Object.prototype.toString.call(o).slice(8, -1)
+					}
+				}
+				
+				Rx.Observable = {
+					fromEvent: function(selector, type) {
+						selector.addEventListener(type, this.callback)
+						return this
+					},
+					debounceTime: function(time) {
+						var that = this
+						setTimeout(function() {
+							that.value 
+						}, time)
+					},
+					subscribe: function(arg) {
+						if (tools.judgeType(arg) === 'Function') {
+							this.callback = arg						
+						}
+					}
+				},
+				
+				Rx.Subject = function() {
+				}
+				
+				Rx.Subject.prototype = {
+					next: function(value) {
+						this.cb && this.cb(value)
+					},
+					subscribe: function(cb) {
+						this.cb = cb
+					}
+				}
+				
+				Rx.Subscription = {
+					
+				}
+				
+				
+				
+				w.Rx = Rx
+			})(window)
+			
+//			observable.fromEvent()
+
+			var subject = new Rx.Subject()
+			
+			setTimeout(function() {
+				subject.next('我检测到调用了回调')
+			}, 2000)
+			
+			subject.subscribe(function(res) {
+				console.log(res)
+			})
+			
+		</script>
+	</body>
+</html>

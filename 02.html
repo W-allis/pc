@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,29 +10,138 @@
 	
 	<div class="outer">
 		<div class="inner">
-			
+			i am chinese
+		</div>
+		<div class="inner">
+			i am japanese
 		</div>
 	</div>
 	
-	<span class="inner"></span>
+	<span class="inner">
+		你是谁
+	</span>
 	
 	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript">
 		
-		var _$ = jQuery.noConflict();
+		var _$ = jQuery.noConflict()
+		
 		
 		;(function(w) {
 			
-			var jQuery = function(selector, value) {
+			var rquickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, resingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/
+			
+			var jQuery = function(selector, context) {
+				return new jQuery.fn.init(selector, context, this)
+			}
+			
+			jQuery.merge = function(first, second) {
+				var f = first.length, 
+					s = second.length,
+					j = 0
 				
-				return new jQuery.prototype.init(selector, value)
+				if (typeof s === 'number') {
+					for (; j < s; j++) {
+						first[f++] = second[j]
+					}
+				} else {
+					while (second[j] !== undefined) {
+						first[f++] = second[j++]
+					}
+				}
+				
+				first.length = f
+				
+				return first
+			}
+			
+			jQuery.find = function Sizzle(selector, context, results, seed) {
+				results = results || []
+				context = context || document
+				
+				
 			}
 			
 			jQuery.fn = jQuery.prototype = {
 				
-				init: function(selector, value) {
-					this.element = document.querySelectorAll(selector);
+				init: function(selector, context, rootjQuery) {
+					var match, context, doc
+					
+					if (!selector) {
+						return this
+					}
+
+					if (selector.nodeType) {
+						this.context = this[0] = selector
+						this.length = 1
+						return this
+					}
+					
+					if (typeof selector === 'string') {
+						if (selector.charAt(0) === '<' && selector.charAt(selector.length - 1) === '>' && selector.length > 3) {
+							match = [null, selector, null ]
+						} else {
+							match = rquickExpr.exec(selector)			
+						}
+						
+						if (match && (match[1] || !context)) {
+							if (match[1]) {
+								context = context instanceof jQuery ? context[0] : context
+								doc = (context && context.nodeType ? context.ownerDocument || context : document)
+								
+								selector = jQuery.parseHTML(match[1], doc, true);
+								
+				                if (rsingleTag.test(match[1]) && jQuery.isPlainObject(context)) {
+				                    this.attr.call(selector, context, true)
+				                }
+				
+				                return jQuery.merge(this, selector)
+								
+							}
+						} else if (!context || context.jquery) {
+							
+						} else {
+							
+						}
+					} else {
+						
+					}
+					
 					return this
+				},
+				
+				find: function(selector) {
+//					this.context = 
+					var i, ret
+					
+					if (selector !== 'string') {
+						
+					}
+					
+					ret = this.pushStack('', 'find', selector)
+					
+					for (i = 0, l = this.length; i < l; i++) {
+						length = ret.length
+						jQuery.find(selector, this[i], ret)
+					}
+					
+					
+				},
+				
+				pushStack: function(elems, name, selector) {
+					var ret = jQuery.merge(this.constructor(), elems)
+					
+					ret.prevObject = this
+					
+					ret.context = this.context
+					
+					if (name === 'find')  {
+						ret.selector = this.selector + (this.selector ? ' ' : '') + selector
+    				} else if (name) {
+        				ret.selector = this.selector + '.' + name + '(' + selector + ')'
+    				}
+    				
+    				return ret
 				}
 			}
 			
@@ -42,9 +151,54 @@
 			
 		})(window);
 		
-		console.log($('.inner'))
+//		console.log($('.inner'))
 		
-		console.log(_$('.inner'))
+		console.log(_$('.outer').find(document.querySelectorAll(".inner")))
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		var arr = [
 			{
@@ -54,8 +208,6 @@
 				id: 3	
 			}
 		]
-		
-		console.log(arr.findIndex(function(item) { return item.id === 0 }))
 		
 		var arr = [
 			{
@@ -68,24 +220,50 @@
 			}
 		]
 		
+//		console.log(arr.findIndex(function(item) { return item.id === 0 }))
+		
+		
+		
 		
 		var origin = ['a', 'a', 'c','b', 'a', 'b']
 		
 		
 		function originFormatter(source, format) {
 			source.forEach(function(item, index) {
-				var _index = format.findIndex(function(matter) { return matter.label === item})
+				
+				var _index = format.findIndex(function(matter) { return matter.label === item })
+				
 				if (_index > -1) {
 					source[index] = format[_index].value
 				}
 			})
+			
 			return source
 		}
 		
 		var newArr = originFormatter(origin, arr)
 		
-		console.log(newArr)
+//		console.log(newArr)	
 		
+		var p = [
+			{
+				name: 'wl',
+				hobbits: [
+					{
+						desc: 'test'
+					}
+				]
+			}
+		]
+		
+		
+		function foo(arr, def) {
+			return arr.reduce(function(origin, next) {
+				return (origin && origin[next]) ? origin[next] : null
+			}, def)
+		}
+		
+//		console.log(foo(['0', 'hobbits', '0', 'desc'], p))
 	</script>
 </body>
 </html>

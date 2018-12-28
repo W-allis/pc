@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			table {
+				margin: 200px auto;
+			}
+			
+			td,
+			th {
+				padding: 5px 15px;
+			}
+			
+			:root {
+				background: snow;
+			}
+			
+			.container {
+				width: 260px;
+				height: 100px;
+				overflow-x: scroll;
+			}
+			
+			.container ul {
+				display: inline;
+				height: 50px;
+			}
+			
+			.container ul:after {
+				display: block;
+				content: '';
+				clear: both;
+			}
+			
+			.container li {
+				display: inline-block;
+				width: 95px;
+				border: 1px solid red;
+			}
+		</style>
+	</head>
+
+	<body>
+		
+		<div class="container">
+			<ul>
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+			</ul>
+		</div>
+		
+		<form method="post">
+			
+		</form>
+		
+		
+		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+		<script src="template.js" type="text/javascript" charset="utf-8"></script>
+		<script src="http.utils.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+			
+			ajax.interceptors.response(function(res) {
+				console.log(res)
+				return res
+			}, function(error) {
+				console.error(error)
+				return new Error(error)
+			})
+			
+			ajax.get({
+				url: '/local/login',
+				data: {
+					username: 'admin',
+					password: 'login'
+				}
+			}).done(function(res) {
+				console.log(res)
+			})
+			
+			
+			function getAjax() {
+				var dfd = $.Deferred()
+				
+				setTimeout(function() {
+					var a = 10
+					
+					$.ajax({
+						type: 'get',
+						url: '/local/login',
+						data: {
+							username: 'admin',
+							password: 'login'
+						}
+					})
+					.done(function(res) {
+						dfd.resolve(res)
+					})
+					.fail(function(error) {
+						console.log(error)
+					})
+				}, 3000)
+				
+				
+				return dfd
+			}
+			
+			getAjax()
+			.done(function(res) {
+				console.log(res)
+			})
+			
+			
+			var wait = function() {
+				
+				var dfd = $.Deferred()
+				
+				setTimeout(function() {
+					console.log(1)
+					dfd.resolve()
+				}, 5000)
+				
+				return dfd
+			}
+			
+			wait()
+			.done(function() {
+				console.log(2)
+			})
+			.fail(function() {
+				console.log(3)
+			})
+			
+//			dfd.resolve()
+		</script>
+		<script type="text/javascript">
+			(function() {
+				var jQuery
+				
+				jQuery = function() {
+					
+				}
+				
+				// 96， 283  给jQuery对象，添加方法和属性
+				
+				// 285， 347 jQuery的继承方法
+				
+				
+				// 拓展工具方法
+//				jQuery.extend()
+				// 877 2856 实现复杂选择器
+				
+				
+				// 8826
+//				window.jQuery = window.$ = jQuery
+				
+				
+			})();
+			
+			function f1() {
+				console.log(1)
+				return false
+			}
+			
+			function f2() {
+				console.log(2)
+				
+				return true
+			}
+			
+			function f3() {
+				console.log(3)
+				
+				return true
+			}
+			
+			var cb = $.Callbacks()
+			
+			cb.add(f1).add(f2)
+			
+			cb.disable()
+			
+			cb.add(f3)
+			
+			console.log(cb.fire())
+			cb.add(f1).add(f3)
+			
+			
+			var Observable = {
+				callbacks: [],
+				add: function(fn) {
+					this.callbacks.push(fn)
+				},
+				fire: function() {
+					this.callbacks.forEach(function(fn) {
+						fn()
+					})
+				}
+			}
+			
+			Observable.add(function() {
+//				console.log(1)
+			})
+			
+			Observable.fire(function() {
+//				console.log(2)
+			})
+		</script>
+	</body>
+
+</html>

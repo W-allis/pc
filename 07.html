@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<span>122</span>
+		
+		<script type="text/javascript">
+			;(function(window) {
+				
+				var requickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/
+				
+				var jQuery = function(selector, context) {
+					return new jQuery.fn.init(selector, context, this)
+				}
+				
+				jQuery.ready = function(fn) {
+					document.addEventListener('DOMContentLoaded', fn, false)
+				}
+				
+				jQuery.find = function(selector) {
+					var ret
+					if (typeof selector === 'string') {
+						this.length = document.querySelectorAll(selector)
+					}
+				}
+				
+				jQuery.prototype = {
+					init: function(selector, context, rootjQuery) {
+						var match, a
+						
+						if (typeof selector === 'string') {
+							if (selector.indexOf('<') > -1 && selector.indexOf('>') > -1) {
+								match = requickExpr.exec(selector)							
+							}
+							
+							if (match && (match[0] || !context)) {
+								this.context = document
+							} else if (!context || context.jquery) {
+								return (context || rootjQuery).find(selector)
+							} else {
+								return this.constructor(context).find(selector)
+							}
+						} else if (typeof selector === 'function') {
+							return rootjQuery.ready(selector)
+						}
+					}
+				}
+				
+				jQuery.prototype.init.prototype = jQuery.fn = jQuery.prototype
+				
+				window.$ = jQuery
+			})(window)
+			
+			console.log($('span'))
+		</script>
+	</body>
+</html>

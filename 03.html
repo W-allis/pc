@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			.leftBar {
+				width: 100px;
+				height: 50px;
+				background-color: #ccc;
+			}
+			
+			.leftBar ~ .leftBar {
+				margin-top: 20px;
+			}
+			
+			.one_1 {
+				border-left: 5px solid red;
+			}
+			
+			.one_2:after {
+				width: 5px;
+				content: '';
+				height: 100%;
+				display: block;
+				background-color: red;
+			}
+			
+			.one_3 {
+				box-shadow: 5px 0px 0 red inset;
+			}
+			
+			.one_4 {
+				background-image: linear-gradient(90deg, red 0px, red 5px, transparent 5px);
+			}
+			
+			.one_5 {
+				outline: 5px solid red;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div class="leftBar one_1"></div>
+		<div class="leftBar one_2"></div>
+		<div class="leftBar one_3"></div>
+		<div class="leftBar one_4"></div>
+		<div class="leftBar one_5"></div>
+		<div class="leftBar one_6"></div>
+		<div class="leftBar one_7"></div>
+		
+		<script type="text/javascript">
+
+			if (window.top !== window.self) {
+				window.top.iframeHeight = document.body.offsetHeight
+			}
+
+		</script>
+	</body>
+</html>

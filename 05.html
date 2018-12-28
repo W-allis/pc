@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+
+		<div class="outer" onclick="oneClick(console.log)">
+			122
+		</div>
+	
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.5.10/Rx.min.js"></script>
+		
+		<script type="text/javascript">
+
+			;(function(w) {
+				function reduce(arr, data) {
+					return arr.reduce(function(origin, next) {
+						return (origin && origin[next]) ? origin[next] : null
+					}, data)
+				}
+				
+				function Observable() {
+					
+				}
+				
+				function Watch() {
+					
+				}
+				
+				Observable.fromEvent = function(selector, eventType) {
+					if (reduce(selector.nodeType)) {
+						new Error('first param must be dom element')
+					}
+					
+					return new Watch(selector, eventType)
+				}
+				
+				Observable.of = function() {
+					
+				}
+				
+				Observable.from = function() {
+					
+				}
+				
+				Observable.bindCallBack = function() {
+					
+				}
+			})(window)
+			
+			console.log(Rx.Observable.of)
+
+			function getJson(flag) {
+				return new Promise((resolve, reject) => {
+					flag ? resolve(flag) : reject(flag)
+				})
+			}
+
+			function oneClick(f) {
+
+				var sub = oneClick
+
+				fn = function() {}
+
+				getJson(false).then(function() {
+
+				}).catch(function() {
+					oneClick = sub
+				})
+			}
+		</script>
+	</body>
+
+</html>
