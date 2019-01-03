@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+
+		<button data-src="http://www.baidu.com">button</button>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.5.10/Rx.min.js"></script>
+		<script type="text/javascript">
+			;
+			(function(w) {
+
+				function redux(keyArray, origin) {
+					keyArray = Array.from(keyArray)
+					return keyArray.reduce(function(origin, next) {
+						return origin ? origin[next] : undefined
+					}, origin)
+				}
+
+				var Observable, Observer
+
+				Observer = function() {
+
+				}
+
+				Observable = function() {
+					
+				}
+
+				Observable.lift = function(operator, root) {
+					if (root.status === 'pedding') {						
+						root.callback.push(operator)
+					}
+					return root
+				}
+
+				Observable.fromEvent = function(selector, type) {
+					var root = new Observable()
+						root.status = 'pedding'
+						root.callback = []
+					function dcb(value) {
+						root.value = value
+						setTimeout(function() {
+							root.callback.forEach(function(item) {
+								root.value = item(root.value)	
+							})
+						}, 0)
+					}
+					selector.addEventListener(type, dcb)
+					return root
+				}
+
+				var operators = {
+					scan: function(project, origin) {
+
+					},
+					pluck: function() {
+						var root = this
+							argument = arguments
+						return Observable.lift(function() {
+							return redux(argument, root.value)
+						}, this)
+					},
+					debounceTime: function(time) {
+						
+					},
+					subscribe: function(callback) {
+						return Observable.lift(callback, this)
+					}
+				}
+
+				Observable.prototype = operators
+				
+				w.Observable = Observable
+
+			})(window)
+
+//			for(var k in Rx.operators) {
+//				console.log(Rx.operators[k])
+//			}
+			Observable.fromEvent(document.querySelector('button'), 'click')
+			.pluck('target', 'dataset', 'src')
+			.subscribe(function(res) {
+				console.log(res)
+			})
+			
+			
+//			function Promise(fn) {
+//				var root = this
+//					root.value = null
+//					root.callback = []
+//					root.status = 'pedding'
+//				
+//				this.then = function(done) {
+//					if (root.status === 'pedding') {
+//						root.callback.push(done)
+//					}
+//				}
+//				
+//				function resolve() {
+//					if (root.status === 'finish') {
+//						
+//						setTimeout(function() {
+//							root.callback.forEach(function(item) {
+//								root.value = item(root.value)
+//							})
+//						})
+//					}
+//				}
+//				
+//				fn(resolve)
+//			}
+//			
+//			new Promise(function(resolve, reject) {
+//				
+//			})
+			
+		</script>
+	</body>
+
+</html>

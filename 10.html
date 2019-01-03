@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+</head>
+<body>
+	<h2>
+		hidden
+	</h2>
+	
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		
+		;(function(w, undefined) {
+			
+			var Observable, Deferred
+			
+			Observable = function() {
+				
+			}
+			
+			Observable.fromEvent = function(selector, type) {
+				return new Observable.prototype.createObserver(selector, type)
+			}
+			
+			Observable.prototype = {
+				createObserver: function(selector, type) {
+					if (arguments.length > 1 && selector.nodeType === '1') {
+						selector.addEventListener(type, this.async)
+						return this
+					}
+				},
+				async: function(e) {
+					this.value = e
+					
+				},
+				callback: function() {
+					
+				},
+				subscribe: function() {
+					
+				}
+			}
+			
+			Deferred = function() {
+				
+				var deferred = {
+					then: function(fn) {
+						this.callback = fn
+					},
+					fail: function() {
+						
+					},
+					resolve: function() {
+						this.callback && this.callback()
+					}
+				}
+				
+				return deferred
+			}
+			
+			Observable.prototype.createObserver.prototype = Observable.prototype
+			
+			w.observable = Observable
+		})(window, undefined)
+		
+		observable.fromEvent(document.querySelector('h2'), 'click')
+	</script>
+</body>
+</html>

@@ -6,66 +6,85 @@
 	</head>
 	<body>
 		
+		<button>button</button>
+		
+		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.5.10/Rx.min.js"></script>
 		<script type="text/javascript">
 			;(function(w) {
-				var Rx = new Object(), tools
+				var Rx, Observable, Operators
 				
-				tools = {
-					judgeType: function(o) {
-						return Object.prototype.toString.call(o).slice(8, -1)
+				Observable = function(subscribe) {
+					this._isScalar = false
+					
+					if (subscribe) {
+						this._subscribe = subscribe
 					}
-				}
-				
-				Rx.Observable = {
-					fromEvent: function(selector, type) {
-						selector.addEventListener(type, this.callback)
-						return this
-					},
-					debounceTime: function(time) {
-						var that = this
-						setTimeout(function() {
-							that.value 
-						}, time)
-					},
-					subscribe: function(arg) {
-						if (tools.judgeType(arg) === 'Function') {
-							this.callback = arg						
-						}
-					}
-				},
-				
-				Rx.Subject = function() {
-				}
-				
-				Rx.Subject.prototype = {
-					next: function(value) {
-						this.cb && this.cb(value)
-					},
-					subscribe: function(cb) {
-						this.cb = cb
-					}
-				}
-				
-				Rx.Subscription = {
 					
 				}
 				
+//				document.createDocumentFragment()
 				
+				Observable.prototype = {
+					lift: function(operator) {
+						var observable = new Observable()
+						observable.source = this
+						observable.operator = operator
+						return observable
+					},
+					subscribe: function(observerOrNext, error, complete) {
+						var sink = toSubscriber(observerOrNext, error, complete)
+						if (this.operator) {
+							this.operator.call(sink, this.source)
+						} else {
+							sink.add(this.source ? this._subscribe(sink) : this._trySubscribe(sink))
+						}
+					}
+				}
 				
 				w.Rx = Rx
 			})(window)
 			
-//			observable.fromEvent()
+			
+			
+			;(function(w) {
+				var WorkFlow, cb = $.Callbacks()
+				
+				cb.async = function() {
+					
+				}
+			
+				WorkFlow = function() {
 
-			var subject = new Rx.Subject()
+				}
+				
+				WorkFlow.on = function(selector, type) {
+					selector.on(type, cb.fire)
+					return cb
+				}
+				
+				WorkFlow.prototype = {
+					init: function() {
+						
+					}
+				}
+				
+				w.flow = WorkFlow
+			})(window)
+			
+			function f1() {
+				console.log(1)
+			}
+			
+			function f2() {
+				console.log(2)
+			}
+			
+			var ne = flow.on($('button'), 'click').add(f1)
 			
 			setTimeout(function() {
-				subject.next('我检测到调用了回调')
+				ne.remove(f1).add(f2)
 			}, 2000)
-			
-			subject.subscribe(function(res) {
-				console.log(res)
-			})
 			
 		</script>
 	</body>
